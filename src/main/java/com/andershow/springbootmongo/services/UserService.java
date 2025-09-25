@@ -1,12 +1,14 @@
 package com.andershow.springbootmongo.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.andershow.springbootmongo.domain.User;
 import com.andershow.springbootmongo.repository.UserRepository;
+import com.andershow.springbootmongo.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class UserService {
@@ -18,5 +20,12 @@ public class UserService {
 	
 	public List<User> findAll(){
 		return repo.findAll();
+	}
+	public Optional<User> findById(String id) {
+		Optional<User> user= repo.findById(id);
+		if(user == null) {
+			throw new ObjectNotFoundException("Id não encontrado");
+		}
+		return user;
 	}
 }
