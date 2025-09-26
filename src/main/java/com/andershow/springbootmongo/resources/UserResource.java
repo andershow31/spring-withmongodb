@@ -3,7 +3,6 @@ package com.andershow.springbootmongo.resources;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,8 +48,8 @@ public class UserResource {
 		
 	}
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<User>> findById(@PathVariable String id){
-		Optional<User> obj = service.findById(id);
+	public ResponseEntity<User> findById(@PathVariable String id){
+		User obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	@PostMapping()
@@ -63,10 +63,15 @@ public class UserResource {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable String id){
 		service.delete(id);
-		return ResponseEntity.noContent().build();
-		
+		return ResponseEntity.noContent().build();	
 	}
 
-	
+	@PutMapping("/{id}")
+	public ResponseEntity<Void> update(@RequestBody UserDTO userDTO, @PathVariable String id){
+		User obj = service.fromDTO(userDTO);//essa parte transforma um userDTO em user
+		obj.setId(id);
+		obj = service.update(obj); 
+		return ResponseEntity.noContent().build();	
+	}
 	
 }

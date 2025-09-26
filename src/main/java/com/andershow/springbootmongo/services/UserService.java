@@ -22,11 +22,8 @@ public class UserService {
 	public List<User> findAll(){
 		return repo.findAll();
 	}
-	public Optional<User> findById(String id) {
-		Optional<User> user= repo.findById(id);
-		if(user == null) {
-			throw new ObjectNotFoundException("Id não encontrado");
-		}
+	public User findById(String id) {
+		User user= repo.findById(id).orElseThrow(() -> new ObjectNotFoundException("Id não encontrado"));
 		return user;
 	}
 	public User insert(User obj) {
@@ -36,7 +33,16 @@ public class UserService {
 		repo.findById(id);//puxamos o id, caso não exista fará o tratamento de exceção do findById
 		repo.deleteById(id);
 	}
+	public User update(User obj) {
+		User newObj = repo.findById(obj.getId()).orElseThrow(()-> new ObjectNotFoundException("Id não encontrado"));
+		updateData(newObj, obj);
+		return repo.save(newObj);
+	}
 	
+	private void updateData(User newObj, User obj) {
+		newObj.setName(obj.getName());
+		newObj.setEmail(obj.getEmail());
+	}
 	public User fromDTO(UserDTO userDTO) {//este método converte DTO para user
 		return new User(userDTO.getId(), userDTO.getName(), userDTO.getEmail());
 	}
