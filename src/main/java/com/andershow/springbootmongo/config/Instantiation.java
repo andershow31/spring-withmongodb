@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
+import com.andershow.springbootmongo.DTO.AuthorDTO;
 import com.andershow.springbootmongo.domain.Post;
 import com.andershow.springbootmongo.domain.User;
 import com.andershow.springbootmongo.repository.PostRepository;
@@ -37,8 +38,8 @@ public class Instantiation implements CommandLineRunner{
 		
 		userRepository.saveAll(Arrays.asList(maria,alex,bob));
 		//o sfd.parse cria
-		Post post1 = new Post(null, sdf.parse("12/02/2025"), "Partiu Viajar", "Partindo de viagem hoje", maria);
-		Post post2 = new Post(null, sdf.parse("10/03/2025"), "Olá galera", "Este é meu segundo post aqui na rede", maria);
+		Post post1 = new Post(null, sdf.parse("12/02/2025"), "Partiu Viajar", "Partindo de viagem hoje", new AuthorDTO(maria));
+		Post post2 = new Post(null, sdf.parse("10/03/2025"), "Olá galera", "Este é meu segundo post aqui na rede", new AuthorDTO(maria));
 		postRepository.saveAll(Arrays.asList(post1,post2));		
 	}
 
