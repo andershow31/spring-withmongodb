@@ -9,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
 import com.andershow.springbootmongo.DTO.AuthorDTO;
+import com.andershow.springbootmongo.DTO.ComentDTO;
 import com.andershow.springbootmongo.domain.Post;
 import com.andershow.springbootmongo.domain.User;
 import com.andershow.springbootmongo.repository.PostRepository;
@@ -40,9 +41,20 @@ public class Instantiation implements CommandLineRunner{
 		//o sfd.parse cria o date
 		Post post1 = new Post(null, sdf.parse("12/02/2025"), "Partiu Viajar", "Partindo de viagem hoje", new AuthorDTO(maria));
 		Post post2 = new Post(null, sdf.parse("10/03/2025"), "Olá galera", "Este é meu segundo post aqui na rede", new AuthorDTO(maria));
+		
+		ComentDTO c1 = new ComentDTO("Boa viagem mano",sdf.parse("12/02/2025"), new AuthorDTO(alex));
+		ComentDTO c2 = new ComentDTO("Te manda loka véia",sdf.parse("13/02/2025"), new AuthorDTO(bob));
+		ComentDTO c3 = new ComentDTO("Isso ai",sdf.parse("13/02/2025"), new AuthorDTO(alex));
+		
+		post1.getComents().addAll(Arrays.asList(c1, c2));
+		post2.getComents().add(c3);
+		
+		
 		postRepository.saveAll(Arrays.asList(post1,post2));		
 		maria.getPosts().addAll(Arrays.asList(post1, post2));
 		userRepository.save(maria);
+		
+	
 	}
 
 }

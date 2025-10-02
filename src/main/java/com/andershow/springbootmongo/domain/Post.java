@@ -1,13 +1,16 @@
 package com.andershow.springbootmongo.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.andershow.springbootmongo.DTO.AuthorDTO;
+import com.andershow.springbootmongo.DTO.ComentDTO;
 @Document
 public class Post implements Serializable{
 
@@ -18,6 +21,9 @@ public class Post implements Serializable{
 	private String title;
 	private String body;
 	private AuthorDTO author;
+	
+	private List<ComentDTO> coments= new ArrayList<>();
+	
 	public Post() {}
 	public Post(String id, Date date, String title, String body, AuthorDTO author) {
 		super();
@@ -51,6 +57,18 @@ public class Post implements Serializable{
 	public void setBody(String body) {
 		this.body = body;
 	}
+	public AuthorDTO getAuthor() {
+		return author;
+	}
+	public void setAuthor(AuthorDTO author) {
+		this.author = author;
+	}
+	public List<ComentDTO> getComents() {
+		return coments;
+	}
+	public void setComents(List<ComentDTO> coments) {
+		this.coments = coments;
+	}
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -66,11 +84,6 @@ public class Post implements Serializable{
 		Post other = (Post) obj;
 		return Objects.equals(id, other.id);
 	}
-	public AuthorDTO getAuthor() {
-		return author;
-	}
-	public void setAuthor(AuthorDTO author) {
-		this.author = author;
-	}
+
 	
 }
