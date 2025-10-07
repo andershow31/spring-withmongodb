@@ -1,5 +1,6 @@
 package com.andershow.springbootmongo.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -24,7 +25,10 @@ public interface PostRepository extends MongoRepository<Post, String>{
 	
 	
 	//abaixo usamos um @query, consulta personalizada
-	//https://www.mongodb.com/pt-br/docs/manual/reference/operator/query/regex/
+	//https://www.mongodb.com/pt-br/docs/manual/reference/operator/query/regex/ 
 	@Query("{ 'title': { $regex: ?0, $options: 'i' } }")
 	List<Post> searchTitle(String text);
+	
+	@Query("{ $and: [{date: {$gte: 	?1}},{date: {$lte: 	?2}},{$or: [{'title': { $regex: ?0, $options: 'i' }},{'body': { $regex: ?0, $options: 'i' }}, {'coments.text': { $regex: ?0, $options: 'i' }} ]}]}")
+	List<Post> fullSearch(String text,Date mindate, Date maxdate);
 }

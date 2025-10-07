@@ -1,6 +1,7 @@
 package com.andershow.springbootmongo.services;
 
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,4 +27,8 @@ public class PostService {
 		return repo.searchTitle(title);
 	}
 	
+	public List<Post> fullSearch(String text,Date mindate, Date maxdate){
+		maxdate = new Date(maxdate.getTime() + 24*60*60*1000);//soma um dia em milisegundos para pegar os posts do dia atual + 1
+		return repo.fullSearch(text, mindate, maxdate);
+	}
 }
